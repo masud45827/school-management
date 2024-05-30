@@ -1,0 +1,14 @@
+const Router = require('koa-router');
+const router = new Router();
+const multer = require('koa-multer');
+const { verifyToken } = require('../middleware/checkAdmin');
+const path = require('path');
+const upload = require('../middleware/imageUpload');
+const { createStudent,byClassAndId,allStudent,byClass, update, Delete} = require('../controllers/studentController');
+router.get('/',allStudent);
+router.get('/:Class',byClass);
+router.get('/:Class/:id',byClassAndId);
+router.post('/register',verifyToken,upload.single('image'),createStudent);
+router.put('/:Class/:id',verifyToken,upload.single('image'),update);
+router.delete('/:Class/:id',verifyToken,Delete);
+module.exports = router.routes();
